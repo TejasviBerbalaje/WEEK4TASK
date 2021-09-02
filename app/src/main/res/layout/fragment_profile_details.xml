@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Profile_details">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -88,5 +91,5 @@
         app:srcCompat="@android:drawable/ic_menu_share"
         app:tint="#000000" />
 </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>

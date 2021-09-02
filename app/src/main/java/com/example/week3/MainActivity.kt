@@ -17,8 +17,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.week3.Fragments.Recyclerview
 import com.example.week3.Fragments.Register_form
-import com.example.week3.Fragments.weeek3_Recyclerview
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_layout,weeek3_Recyclerview()).commit()
+
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_layout,Recyclerview()).commit()
 val connectionmanager= this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activenetwrok:NetworkInfo?=connectionmanager.activeNetworkInfo
         val isconnected:Boolean=activenetwrok?.isConnectedOrConnecting==true
@@ -35,6 +37,13 @@ val connectionmanager= this.getSystemService(Context.CONNECTIVITY_SERVICE) as Co
         }else{
             Toast.makeText(this, "You are offline!!!!", Toast.LENGTH_SHORT).show()
         }
+
+
+
+
+
+
+
 
     }
 

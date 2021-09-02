@@ -1,7 +1,6 @@
 package com.example.week3.Fragments
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
+
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
@@ -17,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
+import com.example.week3.MainActivity
 import com.example.week3.R
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
@@ -114,9 +114,9 @@ val bundle=Bundle()
 
 
 
-        val profiledetais=weeek3_Recyclerview()
-//        profiledetais.arguments=bundle
-       setFragmentResult(RESULT_OK.toString(),bundle)
+        val profiledetais=Profile_details()
+        profiledetais.arguments=bundle
+//       setFragmentResult(RESULT_OK.toString(),bundle)
          fragmentManager?.beginTransaction()?.replace(R.id.fragment_layout,profiledetais)?.commit()
 
 

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.week3.MainActivity
 import com.example.week3.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,8 +52,7 @@ class Profile_details : Fragment() {
 
 homebutton.setOnClickListener {
 
-
-    fragmentManager?.beginTransaction()?.replace(R.id.fragment_layout,weeek3_Recyclerview())?.commit()
+    fragmentManager?.beginTransaction()?.replace(R.id.fragment_layout,Recyclerview())?.commit()
 }
 
         val nameResult = view.findViewById<TextView>(R.id.resultName)

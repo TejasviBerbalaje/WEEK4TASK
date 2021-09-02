@@ -1,9 +1,6 @@
 package com.example.week3.DataBaseFiles
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 
 @Dao
@@ -20,6 +17,7 @@ fun insertUser(user:UserEntity?)
 
     @Delete
     fun deletUser(user:UserEntity?)
+
 
 
 }
