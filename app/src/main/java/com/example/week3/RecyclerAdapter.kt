@@ -43,6 +43,12 @@ class RecyclerAdapter(val listener: RowClickListener) : RecyclerView.Adapter<Rec
 
         val tvName = view.PersonName
         val tvEmail = view.PersonEmailId
+//        val tvAge=view.PersonAge
+//        val tvTime=view.time
+//        val tvGender=view.PersonGender
+//        val tvdob=view.PersonDob
+
+
 
         val deleteUserID = view.DeleteButton
 
@@ -51,11 +57,30 @@ class RecyclerAdapter(val listener: RowClickListener) : RecyclerView.Adapter<Rec
 
             tvEmail.text = data.email
 
-
-//            tvPhone.text = data.phone
+//            tvAge.text = data.age
+//
+//            tvTime.text=data.time
+////             tvGender.text=data.gender
+//            tvdob.text=data.dob
 
             deleteUserID.setOnClickListener {
-                listener.onDeleteUserClickListener(data)
+                    view ->
+                val builder1 = android.app.AlertDialog.Builder(view.context)
+                builder1.setMessage("Are you sure want to delete?")
+                builder1.setCancelable(true)
+                builder1.setPositiveButton("Yes"){dialogInterface, which ->
+                    listener.onDeleteUserClickListener(data)
+                }
+                //performing cancel action
+                builder1.setNeutralButton("Cancel"){dialogInterface , which ->
+
+                }
+                //performing negative action
+
+                val alert11 = builder1.create()
+                alert11.show()
+                true
+
             }
         }
     }

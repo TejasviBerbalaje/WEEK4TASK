@@ -90,8 +90,8 @@ class Register_form : Fragment() {
     val age = textInputReg_age.editText?.text.toString()
     val date= DateOfBirth.text.toString()
     val time = timePicker.text.toString()
-    val radioGroup = radioGroup.checkedRadioButtonId
-    val male = view.findViewById<RadioButton>(radioGroup)
+//    val radioGroup = radioGroup.checkedRadioButtonId
+//    val male = view.findViewById<RadioButton>(radioGroup)
 
 
     if (!validateName() or !validateEmail() or !validateRadiogroup() or !validatecheckbox() or !validateTimpepicker() or !validateage() or !validateDateofBirth()) {
