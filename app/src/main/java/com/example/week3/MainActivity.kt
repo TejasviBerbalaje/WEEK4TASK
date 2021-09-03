@@ -64,12 +64,12 @@ fab.setOnClickListener {
             addItemDecoration(divider)
         }
 
+
         viewModel = ViewModelProviders.of(this).get(MainactivityViewmodel::class.java)
         viewModel.getAllUserObserver().observe(this,Observer { it ->
             recyclerViewAdapter.setListData(ArrayList(it))
             recyclerViewAdapter.notifyDataSetChanged()
         })
-
 
 
 

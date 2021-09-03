@@ -72,7 +72,7 @@ val userDetails=viewModel.getAllUsers()
             nameResult.text = "Name:"+ it[0].name
                     resultEmail.text = "Email:"+it[0].email
 //            resultAge.text = "Age:"+it[0].age
-//            resultRadio.text = "Gender:"+it[0].gender
+////            resultRadio.text = "Gender:"+it[0].gender
 //            resultDob.text="Dob:"+it[0].dob
 //            resultTime.text="Time:"+it[0].time
 //            imageView.setImageResource(resId)

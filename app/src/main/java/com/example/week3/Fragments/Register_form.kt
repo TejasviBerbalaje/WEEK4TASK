@@ -61,8 +61,8 @@ class Register_form : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register_form, container, false)
-        viewModel = ViewModelProviders.of(this).get(MainactivityViewmodel::class.java)
 
+        viewModel = ViewModelProviders.of(this).get(MainactivityViewmodel::class.java)
         textInputFull_Name = view.findViewById(R.id.full_Name)
         textInputReg_Email = view.findViewById(R.id.register_Email)
         textInputReg_age = view.findViewById(R.id.age)
@@ -88,11 +88,11 @@ class Register_form : Fragment() {
     val name = textInputFull_Name.editText?.text.toString()
     val email = textInputReg_Email.editText?.text.toString()
     val age = textInputReg_age.editText?.text.toString()
-    val date = DateOfBirth.text.toString()
+    val date= DateOfBirth.text.toString()
     val time = timePicker.text.toString()
     val radioGroup = radioGroup.checkedRadioButtonId
     val male = view.findViewById<RadioButton>(radioGroup)
-            val gender=male.text.toString()
+
 
     if (!validateName() or !validateEmail() or !validateRadiogroup() or !validatecheckbox() or !validateTimpepicker() or !validateage() or !validateDateofBirth()) {
 
@@ -201,7 +201,7 @@ return view
     }
 
     fun validateRadiogroup(): Boolean {
-        return if (radioGroup.checkedRadioButtonId == -1) {
+         if (radioGroup.checkedRadioButtonId == -1) {
             textInputGender.error = "Please select the gender"
             return false
         } else {
