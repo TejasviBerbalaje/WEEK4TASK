@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/CardLinearLayout"
-        android:layout_width="403dp"
+        android:layout_width="380dp"
         android:layout_height="match_parent"
         android:onClick="cardView"
         android:orientation="horizontal"
@@ -28,9 +28,9 @@
                 android:id="@+id/PersonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:hint="Name"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/PersonEmailId"
@@ -89,16 +89,14 @@
                 android:id="@+id/DeleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/Background"
                 android:backgroundTintMode="src_in"
                 android:foregroundTint="@color/black"
                 app:srcCompat="@android:drawable/ic_menu_delete"
                 app:tint="@color/black" />
         </LinearLayout>
-
-
 
 
     </LinearLayout>

@@ -1,9 +1,17 @@
 package com.example.week3.Fragments
 
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.PendingIntent.getActivity
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.content.RestrictionsManager.RESULT_ERROR
+import android.icu.number.NumberFormatter.with
 import android.icu.util.Calendar
+import android.media.Image
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -12,25 +20,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.findFragment
+import androidx.media.MediaBrowserServiceCompat.RESULT_ERROR
 import com.example.week3.MainActivity
 import com.example.week3.R
+import com.google.android.material.internal.ContextUtils.getActivity
+
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.fragment_register_form.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
 
 
 class Register_form : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
 
 
     private lateinit var textInputFull_Name: TextInputLayout
@@ -47,18 +55,15 @@ class Register_form : Fragment() {
     private lateinit var btnDateOfBirth: Button
     private lateinit var btntimePicker: Button
     private lateinit var timePicker: TextView
+    private  lateinit var  rgeimage: ImageView
     var formatdate = SimpleDateFormat("dd MMMM yyyy", Locale.US)
     var formattime = SimpleDateFormat("HH:mm aa",Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
 
-
-        }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -67,11 +72,11 @@ class Register_form : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register_form, container, false)
 
-
+        rgeimage=view.findViewById(R.id.regImage)
         textInputFull_Name = view.findViewById(R.id.full_Name)
         textInputReg_Email = view.findViewById(R.id.register_Email)
         textInputReg_age = view.findViewById(R.id.age)
-        textInputGender = view.findViewById(R.id.textView3)
+        textInputGender=view.findViewById(R.id.textView3)
         radioGroup = view.findViewById(R.id.radio_Group)
         radioButton = view.findViewById(R.id.radioButton)
         radioButton2 = view.findViewById(R.id.radioButton2)
@@ -90,7 +95,7 @@ class Register_form : Fragment() {
         btnValidate.setOnClickListener {
 
 
-    var name = textInputFull_Name.editText?.text.toString()
+    val name = textInputFull_Name.editText?.text.toString()
     val email = textInputReg_Email.editText?.text.toString()
     val age = textInputReg_age.editText?.text.toString()
     val date = DateOfBirth.text.toString()
@@ -116,8 +121,7 @@ val bundle=Bundle()
 
         val profiledetais=Profile_details()
         profiledetais.arguments=bundle
-//       setFragmentResult(RESULT_OK.toString(),bundle)
-         fragmentManager?.beginTransaction()?.replace(R.id.fragment_layout,profiledetais)?.commit()
+         fragmentManager?.beginTransaction()?.replace(R.id.container,profiledetais)?.commit()
 
 
     }
@@ -130,7 +134,7 @@ val bundle=Bundle()
             val datePicker =
                 DatePickerDialog(
                     this.requireContext(),
-                     { datePicker, i, i2, i3 ->
+                     { _, i, i2, i3 ->
                         val selectdate = Calendar.getInstance()
                         selectdate.set(Calendar.YEAR, i)
                         selectdate.set(Calendar.MONTH, i2)
@@ -141,6 +145,7 @@ val bundle=Bundle()
                     getdate.get(Calendar.MONTH),
                     getdate.get(Calendar.DAY_OF_MONTH)
                 )
+            datePicker.datePicker.maxDate = System.currentTimeMillis()
             datePicker.show()
 
         })
@@ -148,7 +153,7 @@ val bundle=Bundle()
         btntimePicker.setOnClickListener(View.OnClickListener {
             val gettime = Calendar.getInstance()
             val timepicker = TimePickerDialog(this.requireContext(),
-                 { time, i, i2 ->
+                 { _, i, i2 ->
                     val selecttime = Calendar.getInstance()
                     selecttime.set(Calendar.HOUR_OF_DAY, i)
                     selecttime.set(Calendar.MINUTE, i2)
@@ -167,18 +172,23 @@ return view
 
     fun validateName(): Boolean {
         val name: String = textInputFull_Name.editText!!.text.toString()
-        return if (name.isEmpty()) {
-            textInputFull_Name.error = "Field can not be empty"
-            false
-        } else if (name.length <= 5) {
-            textInputFull_Name.error = "Username is too Short"
-            false
-        } else if (name.length >= 30) {
-            textInputFull_Name.error = "Username is too long"
-            false
-        } else {
-            textInputFull_Name.error = null
-            true
+        return when {
+            name.isEmpty() -> {
+                textInputFull_Name.error = "Field can not be empty"
+                false
+            }
+            name.length <= 5 -> {
+                textInputFull_Name.error = "Username is too Short"
+                false
+            }
+            name.length >= 30 -> {
+                textInputFull_Name.error = "Username is too long"
+                false
+            }
+            else -> {
+                textInputFull_Name.error = null
+                true
+            }
         }
     }
 
@@ -198,7 +208,7 @@ return view
 
     fun validateage(): Boolean {
         val age = textInputReg_age.editText!!.text.toString().trim()
-//        val ageval = "/^[1-9]?[0-9]{1}\$|^100\$/"
+        val ageval = "/^[1-9]?[0-9]{1}\$|^100\$/".toString()
         return if (age.isEmpty()) {
             textInputReg_age.error = "Field can not be empty"
             false
@@ -209,12 +219,12 @@ return view
     }
 
     fun validateRadiogroup(): Boolean {
-        return if (radioGroup.checkedRadioButtonId == -1) {
+         if (radioGroup.checkedRadioButtonId == -1) {
             textInputGender.error = "Please select the gender"
-            false
+            return false
         } else {
             textInputGender.error = null
-            true
+            return true
         }
     }
 
@@ -252,27 +262,11 @@ return view
 
 
 
-    // Inflate the layout for this fragment
 
-
-
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment Register_form.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            Register_form().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }
+
+
+
+
+
+

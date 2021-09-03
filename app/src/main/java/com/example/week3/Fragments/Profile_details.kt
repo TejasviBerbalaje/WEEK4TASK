@@ -1,5 +1,6 @@
 package com.example.week3.Fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +11,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.week3.MainActivity
 import com.example.week3.R
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +39,7 @@ class Profile_details : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,10 +52,12 @@ class Profile_details : Fragment() {
         homebutton=view.findViewById(R.id.HomeButton)
         sharebutton = view.findViewById(R.id.ShareButton)
 
-homebutton.setOnClickListener {
-
-    fragmentManager?.beginTransaction()?.replace(R.id.fragment_layout,Recyclerview())?.commit()
-}
+//homebutton.setOnClickListener {
+//    val intent=Intent(this,MainActivity::class.java)
+//    startActivity(intent)
+//
+////    fragmentManager?.beginTransaction()?.replace(R.id.container,MainActivity())?.commit()
+//}
 
         val nameResult = view.findViewById<TextView>(R.id.resultName)
         val resultEmail = view.findViewById<TextView>(R.id.resultEmail)

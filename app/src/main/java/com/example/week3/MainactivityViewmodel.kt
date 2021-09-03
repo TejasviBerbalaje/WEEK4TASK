@@ -7,9 +7,10 @@ import com.example.week3.DataBaseFiles.RoomAppdb
 import com.example.week3.DataBaseFiles.UserEntity
 
 class MainactivityViewmodel(app:Application):AndroidViewModel(app) {
-lateinit var allUser:MutableLiveData<List<UserEntity>>
+ var allUser:MutableLiveData<List<UserEntity>>
     init {
 allUser= MutableLiveData()
+        this.getAllUsers()
     }
 
     fun getAllUserObserver():MutableLiveData<List<UserEntity>>{

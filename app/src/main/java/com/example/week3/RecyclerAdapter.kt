@@ -9,11 +9,12 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.week3.DataBaseFiles.UserEntity
 import com.example.week3.Fragments.Profile_details
+import kotlinx.android.synthetic.main.cardview_layout.view.*
 
 
+class RecyclerAdapter(val listener: RowClickListener) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
-
+    lateinit var personname:TextView
     var items = ArrayList<UserEntity>()
 
     fun setListData(data:ArrayList<UserEntity> ){
@@ -23,7 +24,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.MyViewHolder {
         val v= LayoutInflater.from(parent.context).inflate(R.layout.cardview_layout,parent,false)
-        return MyViewHolder(v)
+        return MyViewHolder(v,listener)
     }
 
     override fun getItemCount(): Int {
@@ -38,21 +39,30 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
     }
 
 
-    class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
+    class MyViewHolder(view: View, val listener: RowClickListener): RecyclerView.ViewHolder(view) {
 
-//        val personname=view.PersonName
-//        val personemail=view.PersonEmailId
-//        val delete=view.DeleteButton
+        val tvName = view.PersonName
+        val tvEmail = view.PersonEmailId
 
-        fun bind(data: UserEntity){
+        val deleteUserID = view.DeleteButton
 
-//            personname.text=data.name
-//            personemail.text=data.email
-//
-//            delete.set
+        fun bind(data: UserEntity) {
+            tvName.text = data.name
+
+            tvEmail.text = data.email
+
+
+//            tvPhone.text = data.phone
+
+            deleteUserID.setOnClickListener {
+                listener.onDeleteUserClickListener(data)
+            }
         }
     }
 
+    interface RowClickListener {
+        fun onDeleteUserClickListener(user: UserEntity)
+    }
 
-   
-}
+
+    }
