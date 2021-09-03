@@ -1,17 +1,10 @@
 package com.example.week3.Fragments
 
 
-import android.app.Activity
+
 import android.app.DatePickerDialog
-import android.app.PendingIntent.getActivity
 import android.app.TimePickerDialog
-import android.content.Context
-import android.content.Intent
-import android.content.RestrictionsManager.RESULT_ERROR
-import android.icu.number.NumberFormatter.with
 import android.icu.util.Calendar
-import android.media.Image
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -20,17 +13,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.findFragment
-import androidx.media.MediaBrowserServiceCompat.RESULT_ERROR
-import com.example.week3.MainActivity
+import androidx.lifecycle.ViewModelProviders
+import com.example.week3.DataBaseFiles.UserEntity
+import com.example.week3.MainactivityViewmodel
 import com.example.week3.R
-import com.google.android.material.internal.ContextUtils.getActivity
 
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.fragment_register_form.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,12 +44,13 @@ class Register_form : Fragment() {
     private lateinit var btnDateOfBirth: Button
     private lateinit var btntimePicker: Button
     private lateinit var timePicker: TextView
-    private  lateinit var  rgeimage: ImageView
+    private lateinit var viewModel: MainactivityViewmodel
     var formatdate = SimpleDateFormat("dd MMMM yyyy", Locale.US)
     var formattime = SimpleDateFormat("HH:mm aa",Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -71,8 +61,8 @@ class Register_form : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_register_form, container, false)
+        viewModel = ViewModelProviders.of(this).get(MainactivityViewmodel::class.java)
 
-        rgeimage=view.findViewById(R.id.regImage)
         textInputFull_Name = view.findViewById(R.id.full_Name)
         textInputReg_Email = view.findViewById(R.id.register_Email)
         textInputReg_age = view.findViewById(R.id.age)
@@ -102,25 +92,18 @@ class Register_form : Fragment() {
     val time = timePicker.text.toString()
     val radioGroup = radioGroup.checkedRadioButtonId
     val male = view.findViewById<RadioButton>(radioGroup)
+            val gender=male.text.toString()
 
     if (!validateName() or !validateEmail() or !validateRadiogroup() or !validatecheckbox() or !validateTimpepicker() or !validateage() or !validateDateofBirth()) {
 
     }
   else {
         Toast.makeText(this.requireContext(), "Registartion successfull", Toast.LENGTH_SHORT).show()
-val bundle=Bundle()
-        bundle.putString("Name", name)
-        bundle.putString("Email", email)
-        bundle.putString("Age", age)
-        bundle.putString("Gender", male.text.toString())
-        bundle.putString("Dob", date)
-        bundle.putString("Time", time)
-        bundle.putInt("MyImg", R.drawable.person_icon_blue)
 
+        viewModel.insertUserInfo(UserEntity(0,name,email))
 
 
         val profiledetais=Profile_details()
-        profiledetais.arguments=bundle
          fragmentManager?.beginTransaction()?.replace(R.id.container,profiledetais)?.commit()
 
 
@@ -208,7 +191,6 @@ return view
 
     fun validateage(): Boolean {
         val age = textInputReg_age.editText!!.text.toString().trim()
-        val ageval = "/^[1-9]?[0-9]{1}\$|^100\$/".toString()
         return if (age.isEmpty()) {
             textInputReg_age.error = "Field can not be empty"
             false
@@ -219,7 +201,7 @@ return view
     }
 
     fun validateRadiogroup(): Boolean {
-         if (radioGroup.checkedRadioButtonId == -1) {
+        return if (radioGroup.checkedRadioButtonId == -1) {
             textInputGender.error = "Please select the gender"
             return false
         } else {

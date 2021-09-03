@@ -69,11 +69,8 @@ fab.setOnClickListener {
             recyclerViewAdapter.setListData(ArrayList(it))
             recyclerViewAdapter.notifyDataSetChanged()
         })
-val bundle=Bundle()
-        val name  = bundle.getString("Name").toString()
-        val email  = bundle.getString("Email").toString()
-            val user = UserEntity(0, name, email)
-            viewModel.insertUserInfo(user)
+
+
 
 
 
@@ -107,6 +104,7 @@ val bundle=Bundle()
     }
 
     override fun onDeleteUserClickListener(user: UserEntity) {
+
         viewModel.deletUserInfo(user)
     }
 }

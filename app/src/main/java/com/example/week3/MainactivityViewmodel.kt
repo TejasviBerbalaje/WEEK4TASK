@@ -1,5 +1,6 @@
 package com.example.week3
 
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -7,10 +8,11 @@ import com.example.week3.DataBaseFiles.RoomAppdb
 import com.example.week3.DataBaseFiles.UserEntity
 
 class MainactivityViewmodel(app:Application):AndroidViewModel(app) {
+
  var allUser:MutableLiveData<List<UserEntity>>
     init {
 allUser= MutableLiveData()
-        this.getAllUsers()
+       this.getAllUsers()
     }
 
     fun getAllUserObserver():MutableLiveData<List<UserEntity>>{
@@ -32,8 +34,8 @@ allUser= MutableLiveData()
     }
     fun deletUserInfo(entity: UserEntity){
         val userDao= RoomAppdb.getAppDatabase(getApplication())?.userDao()
-        userDao?.deletUser(entity)
-        getAllUsers()
+                userDao?.deletUser(entity)
+                getAllUsers()
     }
 
 }

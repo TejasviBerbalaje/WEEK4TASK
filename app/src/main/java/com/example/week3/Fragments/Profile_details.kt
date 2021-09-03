@@ -11,32 +11,24 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.week3.MainActivity
+import com.example.week3.MainactivityViewmodel
 import com.example.week3.R
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Profile_details.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Profile_details : Fragment() {
     // TODO: Rename and change types of parameters
     lateinit var homebutton:Button
     lateinit var sharebutton: ImageButton
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var viewModel: MainactivityViewmodel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -46,18 +38,16 @@ class Profile_details : Fragment() {
     ): View? {
 
 
-
+        viewModel = ViewModelProviders.of(this).get(MainactivityViewmodel::class.java)
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_profile_details, container, false)
         homebutton=view.findViewById(R.id.HomeButton)
         sharebutton = view.findViewById(R.id.ShareButton)
 
-//homebutton.setOnClickListener {
-//    val intent=Intent(this,MainActivity::class.java)
-//    startActivity(intent)
-//
-////    fragmentManager?.beginTransaction()?.replace(R.id.container,MainActivity())?.commit()
-//}
+homebutton.setOnClickListener {
+    val intent=Intent(requireContext(), MainActivity::class.java)
+    startActivity(intent)
+}
 
         val nameResult = view.findViewById<TextView>(R.id.resultName)
         val resultEmail = view.findViewById<TextView>(R.id.resultEmail)
@@ -69,24 +59,26 @@ class Profile_details : Fragment() {
 
 //for getting dat from main activity
         val imageView: ImageView = view.findViewById(R.id.profileImg)
+val userDetails=viewModel.getAllUsers()
+//
+//        val name = this.arguments?.get("Name")
+//        val email = this.arguments?.get("Email")
+//        val age = this.arguments?.get("Age")
+//        val gender = this.arguments?.get("Gender")
+//        val date = this.arguments?.get("Dob")
+//        val time=this.arguments?.get("Time")
+//        val resId: Int = requireArguments().getInt("MyImg")
+        viewModel.getAllUserObserver().observe(viewLifecycleOwner, Observer { it ->
+            nameResult.text = "Name:"+ it[0].name
+                    resultEmail.text = "Email:"+it[0].email
+//            resultAge.text = "Age:"+it[0].age
+//            resultRadio.text = "Gender:"+it[0].gender
+//            resultDob.text="Dob:"+it[0].dob
+//            resultTime.text="Time:"+it[0].time
+//            imageView.setImageResource(resId)
+        })
 
 
-        val name = this.arguments?.get("Name")
-        val email = this.arguments?.get("Email")
-        val age = this.arguments?.get("Age")
-        val gender = this.arguments?.get("Gender")
-        val date = this.arguments?.get("Dob")
-        val time=this.arguments?.get("Time")
-        val resId: Int = requireArguments().getInt("MyImg")
-
-
-       nameResult.text = "Name:$name"
-        resultEmail.text = "Email:$email"
-        resultAge.text = "Age:$age"
-        resultRadio.text = "Gender:$gender"
-        resultDob.text="Dob:$date"
-        resultTime.text="Time:$time"
-        imageView.setImageResource(resId)
 
 //share butoon
         sharebutton.setOnClickListener {
@@ -108,23 +100,5 @@ class Profile_details : Fragment() {
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Profile_details.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Profile_details().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
